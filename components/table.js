@@ -1,4 +1,11 @@
+import { useState } from 'react';
+import Form from './form';
+import { BiEdit, BiTrashAlt } from 'react-icons/bi';
+import data from '../database/data.json';
+
 export default function Table() {
+  const [flag, setFlag] = useState(false);
+
   return (
     <table className="min-w-full table-auto">
       <thead>
@@ -24,49 +31,40 @@ export default function Table() {
         </tr>
       </thead>
       <tbody className="bg-gray-200">
-        <tr className="bg-gray-50 text-center">
-          <td className="px-16 py-2">1</td>
-          <td className="px-16 py-2 flex flex-row items-center">
-            <span className="text-center ml-2 font-semibold">Alexander</span>
-          </td>
-          <td className="px-16 py-2">alex@gmail.com</td>
-          <td className="px-16 py-2">17/03/1990</td>
-          <td className="px-16 py-2">
-            <button className="cursor">
-              <span className="bg-red-500 text-white px-5 py-1 rounded-full">
-                Inactive
-              </span>
-            </button>
-          </td>
-          <td className="px-16 py-2">
-            <button className="cursor"></button>
-          </td>
-          <td className="px-16 py-2">
-            <button></button>
-          </td>
-        </tr>
-        <tr className="bg-gray-50 text-center">
-          <td className="px-16 py-2">2</td>
-          <td className="px-16 py-2 flex flex-row items-center">
-            <span className="text-center ml-2 font-semibold">Satyajit Ray</span>
-          </td>
-          <td className="px-16 py-2">ray@gmail.com</td>
-          <td className="px-16 py-2">07/01/1942</td>
-          <td className="px-16 py-2">
-            <button className="cursor">
-              <span className="bg-green-500 text-white px-5 py-1 rounded-full">
-                Active
-              </span>
-            </button>
-          </td>
-          <td className="px-16 py-2">
-            <button className="cursor"></button>
-          </td>
-          <td className="px-16 py-2">
-            <button></button>
-          </td>
-        </tr>
+        {data.map((obj, index) => (
+          <TableRow {...obj} key={index} />
+        ))}
       </tbody>
     </table>
+  );
+}
+
+function TableRow({ id, name, email, birthday, status }) {
+  // console.log(name);
+
+  return (
+    <tr className="bg-gray-50 text-center">
+      <td className="px-16 py-2">{id}</td>
+      <td className="px-16 py-2 flex flex-row items-center">
+        <span className="text-center ml-2 font-semibold">{name}</span>
+      </td>
+      <td className="px-16 py-2">{email}</td>
+      <td className="px-16 py-2">{birthday}</td>
+      <td className="px-16 py-2">
+        <button className="cursor">
+          <span className="bg-green-500 text-white px-5 py-1 rounded-full">
+            {status}
+          </span>
+        </button>
+      </td>
+      <td className="px-16 py-2 flex justify-around gap-5">
+        <button className="cursor">
+          <BiEdit size={25} color={'rgb(34,197,94)'}></BiEdit>
+        </button>
+        <button className="cursor">
+          <BiTrashAlt size={25} color={'rgb(244,63,94)'}></BiTrashAlt>
+        </button>
+      </td>
+    </tr>
   );
 }
