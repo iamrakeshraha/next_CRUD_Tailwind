@@ -1,5 +1,10 @@
 import connectMongo from '../../../database/conn';
-import getUsers from '../../../database/controller';
+import {
+  deleteUser,
+  getUsers,
+  postUser,
+  putUser,
+} from '../../../database/controller';
 
 export default function handler(req, res) {
   connectMongo().catch(() =>
@@ -11,17 +16,19 @@ export default function handler(req, res) {
   switch (method) {
     case 'GET':
       getUsers(req, res);
-    //   break;
+      break;
     case 'POST':
-      res.status(200).json({ method, name: 'POST Method' });
+      postUser(req, res);
       break;
     case 'PUT':
-      res.status(200).json({ method, name: 'PUT Method' });
+      putUser(req, res);
       break;
     case 'DELETE':
-      res.status(200).json({ method, name: 'DELETE Method' });
+      deleteUser(req, res);
+      break;
     default:
-      res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+      // res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
       res.status(405).end(`method ${method} not Allow`);
+      break;
   }
 }
