@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import Form from './form';
 import { BiEdit, BiTrashAlt } from 'react-icons/bi';
-import { getUser } from '../lib/helper';
+import { getUsers } from '../lib/helper';
 import { useQuery } from 'react-query';
 
 export default function Table() {
   const [flag, setFlag] = useState(false);
 
-  const { isLoading, isError, data, error } = useQuery('user', getUser);
+  const { isLoading, isError, data, error } = useQuery('user', getUsers);
 
-  console.log('response', data);
+  // console.log('response', data);
 
   if (isLoading) return <div>user loading...........</div>;
   if (isError) return <div>Got error {error}</div>;
@@ -62,7 +62,11 @@ function TableRow({ name, email, birthDay, status }) {
         <button className="cursor">
           <span
             className={`${
-              status == 'Active' ? 'bg-green-500' : 'bg-rose-500'
+              status == 'Active'
+                ? 'bg-green-500'
+                : status == 'Inactive'
+                ? 'bg-rose-500'
+                : 'bg-gray-500'
             } text-white px-5 py-1 rounded-full`}
           >
             {status || 'Unknown'}

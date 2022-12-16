@@ -1,4 +1,6 @@
 import { useReducer } from 'react';
+import { addUser } from '../lib/helper';
+import { useQuery } from 'react-query';
 
 const formReducer = (state, event) => {
   return {
@@ -10,7 +12,12 @@ const formReducer = (state, event) => {
 export default function AddUserForm() {
   const [formData, setFormData] = useReducer(formReducer, {});
 
-  console;
+  // const { isLoading, isError, data } = useQuery('user', addUser);
+
+  // console;
+  const onSubmitButtonClick = () => {
+    alert('Submit');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,7 +84,10 @@ export default function AddUserForm() {
         </div>
       </div>
 
-      <button className="flex justify-center text-md w-2/6 bg-green-500 text-white border px-4 py-2 hover:bg-gray-50 hover:text-gray-800 hover:border-green-500 rounded-md">
+      <button
+        className="flex justify-center text-md w-2/6 bg-green-500 text-white border px-4 py-2 hover:bg-gray-50 hover:text-gray-800 hover:border-green-500 rounded-md"
+        onClick={onSubmitButtonClick}
+      >
         Submit
       </button>
     </form>
