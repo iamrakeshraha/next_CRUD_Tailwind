@@ -17,6 +17,12 @@ export default function handler(req, res) {
     case 'GET':
       getUser(req, res);
       break;
+    case 'PUT':
+      putUser(req, res);
+      break;
+    case 'DELETE':
+      deleteUser(req, res);
+      break;
     default:
       // res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
       res.status(405).end(`method ${method} not Allow`);
