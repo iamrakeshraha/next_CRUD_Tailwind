@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import Form from './form';
 import { BiEdit, BiTrashAlt } from 'react-icons/bi';
-import { getUsers } from '../lib/helper';
+import { deleteUser, getUsers } from '../lib/helper';
 import { useQuery } from 'react-query';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleChangeAction } from '../redux/reducer';
 
 export default function Table() {
   const [flag, setFlag] = useState(false);
 
   const { isLoading, isError, data, error } = useQuery('user', getUsers);
 
-  // console.log('response', data);
+  const data1 = useSelector((state) => state);
+
+  // console.log('response1', data1);
 
   if (isLoading) return <div>user loading...........</div>;
   if (isError) return <div>Got error {error}</div>;
@@ -40,15 +44,26 @@ export default function Table() {
       </thead>
       <tbody className="bg-gray-200">
         {data
-          ? data.map((obj, index) => <TableRow {...obj} key={index} />)
+          ? data.map((obj, index) => <TableRow {...obj} key={obj._id} />)
           : null}
       </tbody>
     </table>
   );
 }
 
-function TableRow({ name, email, birthDay, status }) {
+function TableRow({ _id, name, email, birthDay, status }) {
   // console.log(name);
+  const dispatch = useDispatch();
+
+  const updateUserButton = () => {
+    // console.log('updateButton');
+    dispatch(toggleChangeAction());
+  };
+
+  const deteteUserButton = () => {
+    // console.log('deteteUserButton');
+    deleteUser(_id);
+  };
 
   return (
     <tr className="bg-gray-50 text-center">
@@ -74,10 +89,10 @@ function TableRow({ name, email, birthDay, status }) {
         </button>
       </td>
       <td className="px-16 py-2 flex justify-around gap-5">
-        <button className="cursor">
+        <button className="cursor" onClick={updateUserButton}>
           <BiEdit size={25} color={'rgb(34,197,94)'}></BiEdit>
         </button>
-        <button className="cursor">
+        <button className="cursor" onClick={deteteUserButton}>
           <BiTrashAlt size={25} color={'rgb(244,63,94)'}></BiTrashAlt>
         </button>
       </td>

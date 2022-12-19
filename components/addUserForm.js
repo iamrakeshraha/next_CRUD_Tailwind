@@ -1,6 +1,8 @@
 import { useReducer } from 'react';
-import { addUser } from '../lib/helper';
 import { useQuery } from 'react-query';
+import { addUser } from '../lib/helper';
+import { useDispatch } from 'react-redux';
+import { toggleChangeAction } from '../redux/reducer';
 
 const formReducer = (state, event) => {
   return {
@@ -11,18 +13,20 @@ const formReducer = (state, event) => {
 
 export default function AddUserForm() {
   const [formData, setFormData] = useReducer(formReducer, {});
+  const dispatch = useDispatch();
 
   // const { isLoading, isError, data } = useQuery('user', addUser);
 
   // console;
   const onSubmitButtonClick = () => {
-    alert('Submit');
+    console.log('formData', formData);
+    addUser(formData);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('formData', formData);
-    // setVisible(false);
+    // console.log('formData', formData);
+    dispatch(toggleChangeAction());
   };
 
   return (
@@ -48,7 +52,7 @@ export default function AddUserForm() {
       <div className="input-type">
         <input
           type="date"
-          name="date"
+          name="birthDay"
           className="border px-5 py-3 focus:outline-none rounded-md"
           placeholder="Date"
           onChange={setFormData}
@@ -61,7 +65,7 @@ export default function AddUserForm() {
             type="radio"
             name="status"
             id="radioDefault1"
-            value="active"
+            value="Active"
             onChange={setFormData}
             className="form-ckeck-input appearance-none rounded-full border border-gray-300 h-4 w-4 bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration:200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
           ></input>
@@ -74,7 +78,7 @@ export default function AddUserForm() {
             type="radio"
             name="status"
             id="radioDefault2"
-            value="inactive"
+            value="Inactive"
             onChange={setFormData}
             className="form-ckeck-input appearance-none rounded-full border border-gray-300 h-4 w-4 bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration:200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
           ></input>
