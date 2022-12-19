@@ -20,7 +20,8 @@ export default function AddUserForm() {
   // console;
   const onSubmitButtonClick = () => {
     console.log('formData', formData);
-    addUser(formData);
+    if (Object.keys(formData).length > 0) return addUser(formData);
+    alert('insert data');
   };
 
   const handleSubmit = (e) => {
